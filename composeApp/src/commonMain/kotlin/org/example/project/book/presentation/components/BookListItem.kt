@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,17 +31,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import bookapp.composeapp.generated.resources.Res
-import bookapp.composeapp.generated.resources.compose_multiplatform
+import bookapp.composeapp.generated.resources.book_error
 import coil3.compose.rememberAsyncImagePainter
 import org.example.project.book.domain.Book
 import org.example.project.core.presentation.LightBlue
 import org.example.project.core.presentation.SandYellow
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.round
+
 
 @Composable
 fun BookListItem(modifier: Modifier, book: Book, onClick: () -> Unit) {
@@ -52,7 +50,7 @@ fun BookListItem(modifier: Modifier, book: Book, onClick: () -> Unit) {
         modifier = modifier.clickable(onClick = onClick),
         color = LightBlue.copy(alpha = 0.2f)
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(16.dp).height(IntrinsicSize.Min),
+        Row(modifier = Modifier.padding(16.dp).fillMaxWidth().height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Box(modifier = Modifier.height(100.dp), contentAlignment = Alignment.Center) {
@@ -76,7 +74,7 @@ fun BookListItem(modifier: Modifier, book: Book, onClick: () -> Unit) {
                     else -> {
                         Image(
                             painter = if (result.isSuccess) painter else {
-                                painterResource(Res.drawable.compose_multiplatform)
+                                painterResource(Res.drawable.book_error)
                             },
                             contentDescription = book.title,
                             contentScale = if (result.isSuccess) ContentScale.Crop else ContentScale.Fit,
@@ -87,24 +85,14 @@ fun BookListItem(modifier: Modifier, book: Book, onClick: () -> Unit) {
                         )
                     }
                 }
-                Column{
-                    Text(book.title, fontWeight = FontWeight.Bold)
-                    Text(book.authors.joinToString(", "))
-                    Row {
-                        Text(book.averageRating.toString())
-                        Icon(Icons.Filled.Star, contentDescription = "Star")
-                    }
-                }
-                IconButton(onClick = { /* Handle click */ }) {
-                    Icon(Icons.Filled.Favorite, contentDescription = "Favorite")
-                }
             }
             Column(
                 modifier = Modifier.fillMaxHeight().weight(1f),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = book.title, style = MaterialTheme.typography.titleMedium,
+                    text = book.title,
+                    style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -131,7 +119,7 @@ fun BookListItem(modifier: Modifier, book: Book, onClick: () -> Unit) {
                 }
             }
             Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null,
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null,
                 modifier = Modifier.size(36.dp)
             )
         }
