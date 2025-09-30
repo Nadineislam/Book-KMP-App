@@ -1,4 +1,4 @@
-package org.example.project.book.presentation.components
+package org.example.project.book.presentation.bookList.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -74,8 +74,7 @@ fun BookSearchBar(
             },
             shape = RoundedCornerShape(100),
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = DarkBlue,
-//                focusedContainerColor = SandYellow
+                cursorColor = DarkBlue
             ),
             placeholder = {
                 Text(text = stringResource(Res.string.search_hint))

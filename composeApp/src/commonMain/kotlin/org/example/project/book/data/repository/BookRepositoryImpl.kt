@@ -8,12 +8,18 @@ import org.example.project.core.domain.DataError
 import org.example.project.core.domain.Result
 import org.example.project.core.domain.map
 
-class BookRepositoryImpl (private val remoteBookDataSource: RemoteBookDataSource): BookRepository {
+class BookRepositoryImpl(private val remoteBookDataSource: RemoteBookDataSource) : BookRepository {
     override suspend fun searchBooks(
         query: String
     ): Result<List<Book>, DataError.Remote> {
-        return remoteBookDataSource.searchBooks(query).map{ dto->
+        return remoteBookDataSource.searchBooks(query).map { dto ->
             dto.results.map { it.toBook() }
+        }
+    }
+
+    override suspend fun getBookDetails(bookId: String): Result<String?, DataError.Remote> {
+        return remoteBookDataSource.getBookDetails(bookId).map {
+            it.description
         }
     }
 }

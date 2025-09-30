@@ -34,8 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.project.book.domain.Book
-import org.example.project.book.presentation.components.BookList
-import org.example.project.book.presentation.components.BookSearchBar
+import org.example.project.book.presentation.bookList.components.BookList
+import org.example.project.book.presentation.bookList.components.BookSearchBar
 import org.example.project.core.presentation.DarkBlue
 import org.example.project.core.presentation.DesertWhite
 import org.example.project.core.presentation.SandYellow
