@@ -1,4 +1,4 @@
-package org.example.project.book.presentation.components
+package org.example.project.book.presentation.bookList.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
