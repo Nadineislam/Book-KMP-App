@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -15,13 +17,14 @@ import org.example.project.book.domain.repository.BookRepository
 import org.example.project.core.domain.onSuccess
 
 class BookDetailViewModel(
-     savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val bookRepository: BookRepository
 ) : ViewModel() {
     private val bookId = savedStateHandle.toRoute<Route.BookDetail>().bookId
     private var _state = MutableStateFlow(BookDetailState())
     val state = _state.onStart {
         fetchBookDescription(bookId)
+        observeFavoriteBooks()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -30,7 +33,18 @@ class BookDetailViewModel(
 
     fun onAction(action: BookDetailAction) {
         when (action) {
-            is BookDetailAction.OnFavoriteClick -> {}
+            is BookDetailAction.OnFavoriteClick -> {
+                viewModelScope.launch {
+                    if (_state.value.isFavorite) {
+                        bookRepository.deleteFromFavorites(bookId)
+                    } else {
+                        _state.value.book?.let {
+                            bookRepository.markAsFavorite(it)
+                        }
+                    }
+                }
+            }
+
             is BookDetailAction.OnSelectedBookChange -> _state.update { it.copy(book = action.book) }
             else -> Unit
         }
@@ -48,5 +62,11 @@ class BookDetailViewModel(
                     }
                 }
         }
+    }
+
+    private fun observeFavoriteBooks() {
+        bookRepository.isBookFavorite(bookId).onEach { isFavorite ->
+            _state.update { it.copy(isFavorite = isFavorite) }
+        }.launchIn(viewModelScope)
     }
 }

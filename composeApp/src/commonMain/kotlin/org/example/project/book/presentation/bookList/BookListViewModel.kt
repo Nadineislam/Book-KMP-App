@@ -28,12 +28,14 @@ class BookListViewModel(private val bookRepository: BookRepository) : ViewModel(
         if (cachedBooks.isEmpty()) {
             observeSearchQuery()
         }
+        observeFavoriteBooks()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000L),
         _state.value
     )
     private var searchJob: Job? = null
+    private var observeFavoriteBooksJob: Job? = null
 
 
     fun onAction(action: BookListAction) {
@@ -43,9 +45,11 @@ class BookListViewModel(private val bookRepository: BookRepository) : ViewModel(
                     it.copy(searchQuery = action.query)
                 }
             }
+
             is BookListAction.onBookClick -> {
 
             }
+
             is BookListAction.onTabSelected -> {
                 _state.update {
                     it.copy(selectedTabIndex = action.index)
@@ -106,4 +110,17 @@ class BookListViewModel(private val bookRepository: BookRepository) : ViewModel(
                 }
             }
     }
+
+    private fun observeFavoriteBooks() {
+        observeFavoriteBooksJob?.cancel()
+        observeFavoriteBooksJob = bookRepository.getFavoriteBooks().onEach { favoriteBooks ->
+            _state.update {
+                it.copy(
+                    favoriteBooks = favoriteBooks
+                )
+            }
+
+        }.launchIn(viewModelScope)
+    }
+
 }
