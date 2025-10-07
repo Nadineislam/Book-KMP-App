@@ -1,7 +1,6 @@
 package org.example.project.book.presentation.bookList
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -119,10 +118,7 @@ fun BookListScreen(
                             onAction(BookListAction.onTabSelected(0))
 
                         },
-                        modifier = Modifier.weight(1f).clickable{
-                            onAction(BookListAction.onTabSelected(0))
-
-                        },
+                        modifier = Modifier.weight(1f),
                         selectedContentColor = SandYellow,
                         unselectedContentColor = Color.Black.copy(alpha = 0.5f),
                         text = {
@@ -137,10 +133,7 @@ fun BookListScreen(
                         onClick = {
                             onAction(BookListAction.onTabSelected(1))
                         },
-                        modifier = Modifier.weight(1f).clickable{
-                            onAction(BookListAction.onTabSelected(0))
-
-                        },
+                        modifier = Modifier.weight(1f),
                         selectedContentColor = SandYellow,
                         unselectedContentColor = Color.Black.copy(alpha = 0.5f),
                         text = {
