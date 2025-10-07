@@ -92,7 +92,7 @@ class BookListViewModel(private val bookRepository: BookRepository) : ViewModel(
         bookRepository
             .searchBooks(query)
             .onSuccess { searchResults ->
-                update cachedBooks assignment to store latest API searchResults                _state.update {
+                _state.update {
                     it.copy(
                         isLoading = false,
                         errorMessage = null,
