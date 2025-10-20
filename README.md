@@ -16,6 +16,11 @@ This app browses through list of books fetched from a remote API, search for spe
 
 * Clean & Reactive UI: Built entirely with Jetpack Compose for a modern look and smooth interaction.
 
+# Preview
+
+https://github.com/user-attachments/assets/e5cd691d-e138-486a-b528-bd920fd2c06d
+
+
 # 🧠 Libraries and Technologies Used
 🔹 Ktor : Used for making network requests to fetch book data from the REST API. Provides a lightweight and asynchronous HTTP client for smooth and efficient data communication.
 
